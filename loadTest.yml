@@ -1,0 +1,35 @@
+config:
+    target: "ws://0.0.0.0:9000"
+    phases:
+      - duration: 100  # Test for 20 seconds
+        arrivalRate: 10 # Every second, add 10 users
+        rampTo: 100 # Ramp it up to 1000 users over the 20s period
+    ws:
+      rejectUnauthorized: false
+      # subprotocols:
+      # - json
+      headers:
+          Accept-Encoding: gzip, deflate
+          Accept-Language: ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,kk;q=0.6
+          Cache-Control: no-cache
+          Connection: Upgrade
+          Host: 10.0.0.179:9000
+          Origin: http://websocket.org
+          Pragma: no-cache
+          Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+          Upgrade: websocket
+          User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36
+scenarios:
+  - engine: "ws"
+    flow:
+      - send:
+          user_name: "LoH"
+          text: "Hello!"
+      - think: 5
+      - send:
+          user_name: "LoH"
+          text: "world!"
+    # flow:
+    #   - send: "Hello!"
+    #   - think: 5
+    #   - send: "world!"
