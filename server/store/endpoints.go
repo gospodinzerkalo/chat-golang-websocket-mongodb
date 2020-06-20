@@ -61,6 +61,8 @@ func(ef *endpointsFactory) WebsocketEndpoint() func(w http.ResponseWriter,r *htt
 func reader(conn *websocket.Conn,mongoDb MessageStore){
 	for {
 		msgType,p,err := conn.ReadMessage()
+
+		//remove client from the map, if there is error
 		if err !=nil {
 			log.Println(err)
 			n--
@@ -85,8 +87,6 @@ func reader(conn *websocket.Conn,mongoDb MessageStore){
 		_,err = mongoDb.CreateMessage(&msg)
 		if err != nil{
 			log.Println("Cannot save the message ",msg)
-		}else {
-			log.Println("Save message: ",msg)
 		}
 		log.Println(string(p),msgType)
 		mu.Lock()
